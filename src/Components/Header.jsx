@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Logo from "./../assets/Images/gaming-logo.png";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { HiMiniSun } from "react-icons/hi2";
 import { HiMiniMoon } from "react-icons/hi2";
-
+import { ThemeContext } from "./../Context/ThemeContext";
 function Header() {
-  const [toggle, setToggle] = useState(true);
-
-  const toggleMode = () => {
-    setToggle(!toggle);
-  };
+  const {theme, setTheme} = useContext(ThemeContext);
+  useEffect(() => {
+    console.log("check the theme here", theme)
+  })
+  const toggleTheme = (themeValue) => {
+    setTheme(themeValue)
+    window.localStorage.setItem('theme', themeValue)
+  }
   return (
     <div className="flex items-center gap-4">
       <img src={Logo} alt="logo" width={60} height={60} />
@@ -17,18 +20,18 @@ function Header() {
         <HiMagnifyingGlass className="text-black" />
         <input
           type="text"
-          className="text-black outline-none bg-transparent w-full "
+          className="text-black outline-none bg-transparent w-full dark:bg-cyan-300 "
         />
       </div>
 
       <div>
-        {toggle ? (
+        {theme == 'light' ? (
           <HiMiniMoon
-            onClick={toggleMode}
+          onClick={() => toggleTheme('dark')}
             className="bg-slate-200 text-[35px] text-black cursor-pointer rounded-full p-2"
           />
         ) : (
-          <HiMiniSun onClick={toggleMode} className="bg-slate-200 text-[35px] text-black cursor-pointer rounded-full p-2" />
+          <HiMiniSun    onClick={() => toggleTheme('light')} className="bg-slate-200 text-[35px] text-black cursor-pointer rounded-full p-2" />
         )}
       </div>
     </div>

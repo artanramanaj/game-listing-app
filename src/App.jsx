@@ -1,18 +1,20 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Home from "./Pages/Home";
 import Header from "./Components/Header";
-
+import { ThemeContext } from "./Context/ThemeContext";
 function App() {
-  const [count, setCount] = useState(0);
-
+  const [theme, setTheme] = useState('light')
+useEffect(()=> {
+  setTheme(window.localStorage.getItem('theme') ? window.localStorage.getItem('theme') : null)
+},[])
   return (
-    <div className="App">
-      <Header />
-      {/* <Home />  */}
+    <ThemeContext.Provider value={{theme, setTheme}}>
+   <div className={`${theme} ${theme === 'dark' ? 'bg-black' : ''}`}>
+      <Header  />
+      <Home /> 
     </div>
+    </ThemeContext.Provider>
   );
 }
 
