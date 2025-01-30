@@ -20,7 +20,7 @@ function Header() {
         <HiMagnifyingGlass className="text-black" />
         <input
           type="text"
-          className="text-black outline-none bg-transparent w-full dark:bg-cyan-300 "
+          className="text-black outline-none bg-transparent w-full"
         />
       </div>
 

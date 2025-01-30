@@ -13,7 +13,7 @@ function Genres() {
         try {
             const {data} = await axiosInstance.get(`/genres?key=${key}`);
             setGenres(data.results)   
-
+            console.log("check the data here for genres", data)
         } catch (error) {
             console.log("error", error);
         }
@@ -31,7 +31,7 @@ function Genres() {
                key={key} 
                className={`flex items-center gap-2 my-1 cursor-pointer p-3 hover:bg-gray-300 hover:rounded-lg ${findIndex === key ? 'bg-gray-300 rounded-lg' : ''}`}
              >
-                    <img src={genre.image_background} alt="genreimg" width={60} height={60} className='object-cover' />
+                    <img src={genre.image_background} alt="genreimg" width={60} height={60} className={`hover:scale-125 object-cover' ${findIndex === key ? 'scale-125' : ''}`} />
                     <h2>{genre.name}</h2>
                 </div>
             ))}
