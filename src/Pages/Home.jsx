@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Genres from "../Components/Genres";
 import { axiosInstance, key } from "./../Services/GlobalApi.jsx";
 import Banner from "../Components/Banner.jsx";
+import TrendingGames from "../Components/TrendingGames.jsx";
 
 function Home() {
   const [allGameList, setAllGameList] = useState([]);
@@ -13,7 +14,7 @@ function Home() {
   const getAllGamesList = async () => {
     try {
       const { data } = await axiosInstance.get(`/games?key=${key}`);
-      console.log("check the response here", data.results);
+      console.log("check the all games  response here", data.results);
       setAllGameList(data.results);
     } catch (error) {
       console.log("check game error", error);
@@ -27,9 +28,13 @@ function Home() {
         <Genres />
       </div>
 
-      <div className="col-span-3  h-full">
+      <div className="col-span-3  h-full flex flex-col gap-8">
         {allGameList.length > 0 ? (
           <Banner gameListing={allGameList[0]} />
+        ) : null}
+
+        {allGameList.length > 0 ? (
+          <TrendingGames gameListing={allGameList} />
         ) : null}
       </div>
     </div>
