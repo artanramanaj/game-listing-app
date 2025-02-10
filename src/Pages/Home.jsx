@@ -9,9 +9,11 @@ function Home() {
   const [allGameList, setAllGameList] = useState([]);
   const [gameListByGenres, setGameListByGenres] = useState([]);
   const [selectedGenreId, setSelectedGenreId] = useState(4); 
+  const [currentPage, setCurrentPage] = useState(1)
+  const perPage = 5
   useEffect(() => {
     getAllGamesList();
-  }, []);
+  }, [currentPage]);
   useEffect(() => {
     getGamesByGenreId(selectedGenreId);
     console.log("selectedGenreId", selectedGenreId)
@@ -19,8 +21,8 @@ function Home() {
 
   const getAllGamesList = async () => {
     try {
-      const { data } = await axiosInstance.get(`/games?key=${key}`);
-      console.log("check the all games  response here", data.results);
+      const { data } = await axiosInstance.get(`/games?page=${currentPage}&page_size=${perPage}&key=${key}`);
+      console.log("check the all games games games  response here", data);
       setAllGameList(data.results);
     } catch (error) {
       console.log("check game error", error);
