@@ -10,7 +10,8 @@ function Home() {
   const [gameListByGenres, setGameListByGenres] = useState([]);
   const [selectedGenreId, setSelectedGenreId] = useState(4); 
   const [currentPage, setCurrentPage] = useState(1)
-  const perPage = 5
+    const [total, setTotal] = useState(1);
+  const perPage = 8
   useEffect(() => {
     getAllGamesList();
   }, [currentPage]);
@@ -31,9 +32,10 @@ function Home() {
 
   const getGamesByGenreId = async (GenreId) => {
     const { data } = await axiosInstance.get(
-      `/games?key=${key}&genres=${GenreId}`
+     `/games?key=${key}&genres=${GenreId}&page=${currentPage}&page_size=${perPage}`
     );
-    console.log("check genre games by id", data.results);
+    console.log("check genre games by id", data);
+    setTotal(data.results.length)
     setGameListByGenres(data.results);
   };
 
@@ -41,9 +43,14 @@ function Home() {
     setSelectedGenreId(genreId);
   };
 
+  const handleDataFromChild = (childValue) => {
+    console.log("check the current page here", childValue)
+    setCurrentPage(childValue)
+  }
+
   return (
     <div className="dark:text-white grid grid-cols-4 gap-4">
-      <div className="col-span-1  h-full flex flex-col gap-2 ">
+      <div className="hidden  col-span-1  h-full md:flex flex-col gap-2 ">
         <h2 className="text-[40px] mt-2">Genres</h2>
         <Genres onGenreSelect={handleGenreSelect} />
       </div>
@@ -54,7 +61,7 @@ function Home() {
         ) : null}
 
         {allGameList.length > 0 ? (
-          <TrendingGames gameListing={allGameList} />
+          <TrendingGames gameListing={allGameList} sendData={handleDataFromChild} total={total} />
         ) : null}
 
         {gameListByGenres.length > 0 ? (

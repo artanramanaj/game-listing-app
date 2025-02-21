@@ -6,9 +6,9 @@ function Genres({ onGenreSelect }) {
   const [genres, setGenres] = useState([]);
   const [findIndex, setFindIndex] = useState(0);
   const [page, setPage] = useState(1);
-  const [searchVal, setSeachVal] = useState("a");
+  const [searchVal, setSeachVal] = useState("");
   const [total, setTotal] = useState(1);
-  const perPage = 5;
+  const perPage = 9;
   useEffect(() => {
     getGenres();
     console.log("check genres here", genres);
@@ -26,6 +26,8 @@ function Genres({ onGenreSelect }) {
       console.log("error", error);
     }
   };
+
+
 
   const nextPage = () => {
     setPage((prev) => {
@@ -91,7 +93,7 @@ function Genres({ onGenreSelect }) {
               key={index}
               onClick={() => goToPage(index + 1)}
               className={`px-4 py-2 rounded-full dark:bg-gray-900 ${
-                page === index + 1 ? "dark:bg-blue-600 bg-blue-600 text-white" : "bg-gray-200"
+                page === index + 1 ? "dark:bg-red-600 bg-blue-600 text-white" : "bg-gray-200"
               }`}
             >
               {index + 1}
@@ -105,7 +107,7 @@ function Genres({ onGenreSelect }) {
           }`}
           disabled={page === total}
         >
-          Next{" "}
+          Next
         </button>
       </div>
     </div>
