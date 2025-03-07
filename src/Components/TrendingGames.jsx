@@ -24,6 +24,7 @@ function TrendingGames({gameListing , sendData , total}) {
     };
     const goToPage = (pageNum) => {
       setPage(pageNum);
+      sendData(pageNum); 
     };
   
  
