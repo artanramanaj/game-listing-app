@@ -26,6 +26,7 @@ function Home({search}) {
 
   const [total, setTotal] = useState(1);
   const perPage = 8
+  const [showSpinner, setShowSpinner] = useState(false)
 
   const getAllGamesList = async () => {
     let url; 
@@ -35,11 +36,14 @@ function Home({search}) {
        url = `/games?page=${currentPage}&page_size=${perPage}&key=${key}`
     }
     try {
+      setShowSpinner(true)
       const { data } = await axiosInstance.get(url);
       console.log("check the all games games games  response here", data);
       setAllGameList(data.results);
     } catch (error) {
       console.log("check game error", error);
+    } finally {
+      setShowSpinner(false)
     }
   };
 
@@ -47,7 +51,7 @@ function Home({search}) {
 
   useEffect(() => {
     debouncedGetAllGames();
-  }, [currentPage, search, debouncedGetAllGames]);
+  }, [currentPage, search]);
   useEffect(() => {
     getGamesByGenreId(selectedGenreId);
     console.log("selectedGenreId", selectedGenreId)
@@ -56,12 +60,19 @@ function Home({search}) {
 
 
   const getGamesByGenreId = async (GenreId) => {
-    const { data } = await axiosInstance.get(
-     `/games?key=${key}&genres=${GenreId}&page=${page}&page_size=${perPage}`
-    );
-    console.log("check genre games by id", data);
-    setTotal(data.results.length)
-    setGameListByGenres(data.results);
+    try {
+      setShowSpinner(true);
+      const { data } = await axiosInstance.get(
+        `/games?key=${key}&genres=${GenreId}&page=${page}&page_size=${perPage}`
+      );
+      console.log("check genre games by id", data);
+      setTotal(data.results.length);
+      setGameListByGenres(data.results);
+    } catch (error) {
+      console.error("Error fetching games by genre:", error);
+    } finally {
+      setShowSpinner(false); 
+    }
   };
 
   const handleGenreSelect = (genreId) => {
@@ -78,7 +89,7 @@ function Home({search}) {
   }
 
   return (
-    <div className="dark:text-white grid grid-cols-4 gap-4">
+    <div className="dark:text-white grid md:grid-cols-4 gap-4">
       <div className="hidden col-span-1 h-full md:flex flex-col gap-2">
         <h2 className="text-[40px] mt-2">Genres</h2>
         <Genres onGenreSelect={handleGenreSelect} />
@@ -90,11 +101,11 @@ function Home({search}) {
         ) : null}
   
         {allGameList.length > 0 ? (
-          <TrendingGames gameListing={allGameList} sendData={handleDataFromChild} total={total} />
+          <TrendingGames showSpinner={showSpinner} gameListing={allGameList} sendData={handleDataFromChild} total={total} />
         ) : null}
   
         {gameListByGenres.length > 0 ? (
-          <GamesByGenresId gameList={gameListByGenres} page={page} dynamicCurrentPage={dynamicCurrentPage} total={total} />
+          <GamesByGenresId showSpinner={showSpinner} gameList={gameListByGenres} page={page} dynamicCurrentPage={dynamicCurrentPage} total={total} />
         ) : null}
       </div>
     </div>

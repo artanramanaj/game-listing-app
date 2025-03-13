@@ -5,7 +5,7 @@ function TrendingGamesCart({gameListing}) {
         console.log("check the trending game cart component", gameListing)
     }, [])
   return (
-    <div className='grid grid-cols-4 gap-4 md:h-[400px] '>
+    <div className='grid md:grid-cols-2 lg:grid-cols-4 gap-4 md:min-h-[400px] '>
             {gameListing.slice(0,4).map((game, index) => (
                 <div key={index} className=" rounded-lg flex flex-col bg-red-900 hover:scale-105 cursor-pointer duration-500">
                     <img src={game.background_image} alt={game.name} className="w-full h-full  object-cover rounded-lg" />

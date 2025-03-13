@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-
-function GamesByGenresId({ gameList, dynamicCurrentPage, total, page}) {
+import Spinner from "./Spinner.jsx";
+function GamesByGenresId({ gameList, dynamicCurrentPage, total, page, showSpinner}) {
  
   const nextPage = () => {
     dynamicCurrentPage((prev) => {
@@ -17,10 +17,12 @@ function GamesByGenresId({ gameList, dynamicCurrentPage, total, page}) {
     dynamicCurrentPage(pageNum);
   };
   return (
+    <>
+{showSpinner == true ? <Spinner /> : 
     <div className="flex flex-col gap-4 p-4">
       <div className="flex flex-col gap-2 ">
         <h2 className="text-[40px]">{gameList[0].genres[0].name}</h2>
-        <div className="grid grid-cols-4 gap-4 h-full">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 h-full">
           {gameList.length > 0
             ? gameList.map((game, index) => {
                 return (
@@ -51,7 +53,7 @@ function GamesByGenresId({ gameList, dynamicCurrentPage, total, page}) {
             : null}
         </div>
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center gap-4">
         <button
           onClick={prevPage}
           className={`py-2 px-6 rounded-lg bg-red-400 ${
@@ -100,6 +102,8 @@ function GamesByGenresId({ gameList, dynamicCurrentPage, total, page}) {
         </button>
       </div>
     </div>
+     }
+</>
   );
 }
 
