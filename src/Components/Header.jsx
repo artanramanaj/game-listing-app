@@ -4,7 +4,7 @@ import { HiMagnifyingGlass } from "react-icons/hi2";
 import { HiMiniSun } from "react-icons/hi2";
 import { HiMiniMoon } from "react-icons/hi2";
 import { ThemeContext } from "./../Context/ThemeContext";
-function Header() {
+function Header({setSearch}) {
   const {theme, setTheme} = useContext(ThemeContext);
   const [searchValue, setSearchValue] = useState()
   useEffect(() => {
@@ -15,8 +15,9 @@ function Header() {
     window.localStorage.setItem('theme', themeValue)
   }
   const getSearchValue = (e) => {
-    setSearchValue(e.target.value)
+    setSearch(e.target.value)
   }
+  console.log("give me the search value here", searchValue)
   return (
     <div className="flex items-center gap-4">
       <img src={Logo} alt="logo" width={60} height={60} />
@@ -26,9 +27,9 @@ function Header() {
         onChange={getSearchValue}
           type="text"
           className="text-black outline-none bg-transparent w-full"
+          placeholder="Search for trending games"
         />
       </div>
-        <p>{searchValue}</p>
 
       <div>
         {theme == 'light' ? (
