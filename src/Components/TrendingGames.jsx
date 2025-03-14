@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react'
 import TrendingGamesCart from './TrendingGames/TrendingGamesCart'
 import Spinner from "./Spinner.jsx";
 
-function TrendingGames({gameListing , sendData , total, showSpinner}) {
+function TrendingGames({gameListing , sendData , total}) {
     useEffect(()=> {
         console.log("check the trending game listing ", gameListing)
-        console.log("check the trending game showSpinner ", showSpinner)
     }, [])
 
     const [page, setPage] = useState(1);
@@ -31,12 +30,11 @@ function TrendingGames({gameListing , sendData , total, showSpinner}) {
   
  
   return (
-<>
-{showSpinner == true ? <Spinner /> : 
+
     <div className='flex flex-col gap-4 p-4'>
            <h2 className="text-[40px] mt-2">Trending Games</h2>
            <TrendingGamesCart gameListing={gameListing} />
-           <div className="flex items-center gap-4">
+           <div className="flex flex-wrap justify-center lg:justify-start items-center gap-4">
         <button
           onClick={prevPage}
           className={`py-2 px-6 rounded-lg bg-red-400 ${
@@ -85,8 +83,7 @@ function TrendingGames({gameListing , sendData , total, showSpinner}) {
         </button>
       </div>
     </div>
-  }
-</>
+
    
 
   )

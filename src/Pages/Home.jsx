@@ -4,6 +4,8 @@ import { axiosInstance, key } from "./../Services/GlobalApi.jsx";
 import Banner from "../Components/Banner.jsx";
 import TrendingGames from "../Components/TrendingGames.jsx";
 import GamesByGenresId from "../Components/GamesByGenresId.jsx";
+import Spinner from '../Components/Spinner.jsx';
+import GenresModal from "../Components/GenresModal";
 const useDebounce = (callback, delay) => {
   const debounceTimer = useRef(null);
 
@@ -17,7 +19,7 @@ const useDebounce = (callback, delay) => {
     }, delay);
   }, [callback, delay]);
 };
-function Home({search}) {
+function Home({search, setShowModal, showModal}) {
   const [allGameList, setAllGameList] = useState([]);
   const [gameListByGenres, setGameListByGenres] = useState([]);
   const [selectedGenreId, setSelectedGenreId] = useState(4); 
@@ -96,17 +98,19 @@ function Home({search}) {
       </div>
   
       <div className="col-span-3 h-full flex flex-col gap-8">
-        {allGameList.length > 0 ? (
+        {allGameList.length > 0  ? (
           <Banner gameListing={allGameList[0]} />
-        ) : null}
+        ) : <Spinner/>}
   
         {allGameList.length > 0 ? (
-          <TrendingGames showSpinner={showSpinner} gameListing={allGameList} sendData={handleDataFromChild} total={total} />
-        ) : null}
+          <TrendingGames  gameListing={allGameList} sendData={handleDataFromChild} total={total} />
+        ) : <Spinner/>}
   
         {gameListByGenres.length > 0 ? (
-          <GamesByGenresId showSpinner={showSpinner} gameList={gameListByGenres} page={page} dynamicCurrentPage={dynamicCurrentPage} total={total} />
-        ) : null}
+          <GamesByGenresId  gameList={gameListByGenres} page={page} dynamicCurrentPage={dynamicCurrentPage} total={total} />
+        ) : <Spinner/>}
+
+           {showModal == true ? <GenresModal setShowModal={setShowModal} setSelectedGenreId={setSelectedGenreId} /> : null}
       </div>
     </div>
   );
